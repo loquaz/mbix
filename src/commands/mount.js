@@ -75,7 +75,7 @@ class Mount {
         let _tmpDirSubDirectories       = [];
         
         //retrives all necessary devices information
-        let _cmd            = "lsblk -J -o name,path,label,uuid,pttype,partlabel,type";
+        let _cmd            = "lsblk -J -o name,path,label,uuid,partlabel,type";
         let _cmdStdoutRaw   = nodeExec(_cmd, {}).toString();
         let _cmdStdoutJson  = JSON.parse( _cmdStdoutRaw ); 
         
