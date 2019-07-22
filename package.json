@@ -1,0 +1,42 @@
+{
+  "name": "mbx",
+  "version": "1.0.0",
+  "description": "A multiboot Helper",
+  "main": "main.js",
+  "scripts": {
+    "build": "cp mount.sh lib/commands/ && babel src -d lib && npm run chmod",
+    "chmod": "chmod +x lib/main.js && chmod +x lib/commands/mount.sh",
+    "start": "node lib/main",
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loquaz/mbx.git"
+  },
+  "keywords": [
+    "linux",
+    "unix",
+    "multiboot"
+  ],
+  "author": "Sereno Mendes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/loquaz/mbx/issues"
+  },
+  "homepage": "https://github.com/loquaz/mbx#readme",
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "babel-plugin-transform-async-to-promises": "^0.8.13",
+    "babel-preset-latest-node": "^3.2.1",
+    "cli-table": "^0.3.1",
+    "command-line-args": "^5.1.1",
+    "sudo-prompt": "^9.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
+  }
+}
