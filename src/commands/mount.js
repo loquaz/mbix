@@ -1,6 +1,7 @@
 import  sudo  from 'sudo-prompt';
 import { execSync as nodeExec }  from 'child_process';
 import table from 'cli-table';
+import fs from 'fs';
 import '@babel/polyfill';
 /**
  * show command.
@@ -13,8 +14,9 @@ class Mount {
 
         // name of the files that contains the list to mount and unmount 
         // partitions
-        this._unMountListFileName    = "/tmp/mbx/devices_to_unmount.list";
-        this._mountListFileName      = "/tmp/mbx/devices_to_mount.list";
+        this._baseTmpDirPath            = '/tmp/mbix';
+        this._umountListFileName        = this._baseTmpDirPath + "/devices_to_unmount.list";
+        this._mountListFileName         = this._baseTmpDirPath + "/devices_to_mount.list";
 
         this.optsParser = commandLineArgs;
         this.args = argv;
@@ -85,27 +87,32 @@ class Mount {
                     let _path = device['path'];
                     if(_devicesMountedPathListStr.indexOf(_path) === -1){
                         _devicesToMount.push(
-                            {'sourcePath':_path,'targetPath':`/tmp/mbx/${_name}`}
+                            {'sourcePath':_path,'targetPath':`${this._baseTmpDirPath}/${_name}`}
                         );
-                        _tmpDirSubDirectories.push(`/tmp/mbx/${_name}`);
+                        _tmpDirSubDirectories.push(`${this._baseTmpDirPath}/${_name}`);
                     }
                 });                
             })
             //console.log( _tmpDirSubDirectories );
-            console.log(_devicesToMount);
-
-            nodeExec(`touch /tmp/mbx/${this._mountListFileName}`,{});
-            nodeExec(`touch /tmp/mbx/${this._unMountListFileName}`,{});
-            nodeExec(`echo "echo mounting devices" > /tmp/mbx/devices_to_mount.list`,{});
+            //console.log(_devicesToMount);
+            if(!fs.existsSync(this._baseTmpDirPath)){
+                nodeExec(`mkdir ${this._baseTmpDirPath}`,{});    
+            }
+            nodeExec(`touch ${this._mountListFileName}`,{});
+            nodeExec(`touch ${this._umountListFileName}`,{});
+            nodeExec(`echo "echo mounting devices" > ${this._mountListFileName}`,{});
 
             _devicesToMount.forEach(d=>{
+                if(!fs.existsSync(`${this._baseTmpDirPath}/${d.targetPath}`)){
+                    nodeExec(`mkdir ${d.targetPath}`,{});
+                }
                 nodeExec(`echo "mount ${d.sourcePath} ${d.targetPath}" >> ${this._mountListFileName}`,{});
-                nodeExec(`echo "unmount ${d.targetPath}" >> ${this._unMountListFileName}`,{});
+                nodeExec(`echo "umount ${d.targetPath}" >> ${this._umountListFileName}`,{});
             })
             
             try{
                
-                sudo.exec( 'source /tmp/mbx/devices_to_mount.list', {name:'teste'}, (err, stdout, stderr)=>{
+                sudo.exec( `source ${this._mountListFileName}`, {name:'teste'}, (err, stdout, stderr)=>{
                     if(err) throw err;
                     console.log(stdout);
                 })
@@ -117,10 +124,6 @@ class Mount {
 
     }
 
-    _mountInTmpDir(){
-        console.log('uhuuuu');
-    }
-    
 }
 
 export default Mount;

@@ -3,11 +3,13 @@
 import commandLineArgs from 'command-line-args';
 import Show from './commands/show';
 import Mount from './commands/mount';
+import Umount from './commands/umount';
 
 // enum like object with all possible subcommands
-const MBX_SUBCOMMANDS = {
+const MBIX_SUBCOMMANDS = {
     SHOW : 'show',
-    MOUNT : 'mount'
+    MOUNT : 'mount',
+    UMOUNT : 'umount',
 }
 
 const mainDefinitions = [
@@ -27,11 +29,14 @@ const argv          = mainOptions._unknown || [];
 function _getCommandForSubCommand(_cmd, _argv){
     
     switch (_cmd) {
-        case MBX_SUBCOMMANDS.SHOW :            
+        case MBIX_SUBCOMMANDS.SHOW :            
             return new Show(commandLineArgs, _argv);
 
-        case MBX_SUBCOMMANDS.MOUNT :            
+        case MBIX_SUBCOMMANDS.MOUNT :            
             return new Mount(commandLineArgs, _argv);
+        
+        case MBIX_SUBCOMMANDS.UMOUNT :            
+            return new Umount(commandLineArgs, _argv);
 
         default:
             return false;
