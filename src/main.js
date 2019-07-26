@@ -1,4 +1,4 @@
-#!/usr/local/bin/node
+#!/usr/bin/env node
 
 import commandLineArgs from 'command-line-args';
 import Show from './commands/show';
