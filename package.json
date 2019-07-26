@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/loquaz/mbix#readme",
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/polyfill": "^7.4.4",
     "babel-plugin-transform-async-to-promises": "^0.8.13",
     "babel-preset-latest-node": "^3.2.1",

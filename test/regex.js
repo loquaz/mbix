@@ -2,7 +2,7 @@ var assert = require('chai').assert;
 var expect = require('chai').expect;
 
 var _partPattern = /^\/dev\/[a-z]{1,3}[0-9]{1,2}$/;
-var _mountPointRegex = /^(\/dev\/[a-z]{1,3}[0-9]{1,2})(\s+)(on)(\s+)(\/(.*)?)(\s+)(type)(\s+)([a-zA-Z0-9]+)(\s+)(.*)$/
+var _mountPointRegex = /^(\/dev\/[a-z]{1,3}[0-9]{1,2})(\s+)(on)(\s+)(\/(.*)?)(\s+)(type)(\s+)([a-zA-Z0-9]+)(\s+)(.*)$/;
 var _mountPointStr = '/dev/sdb9 on / type ext4 (rw,noatime,errors=remount-ro)';
 var _mountPointStr1 = '/dev/sdb10 on /boot/efi type vfat '; 
 _mountPointStr1 += '(rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)';

@@ -1,4 +1,5 @@
 import  sudo  from 'sudo-prompt';
+import { execSync as nodeExec }  from 'child_process';
 import '@babel/polyfill';
 /**
  * show command.
@@ -10,7 +11,7 @@ class Umount {
     constructor(commandLineArgs, argv){
 
         // name of the file that contains the list of devices to unmount
-        this._uMountListFileName    = "/tmp/mbix/devices_to_unmount.list";
+        this._umountListFileName    = "/tmp/mbix/devices_to_unmount.list";
         
         this.optsParser = commandLineArgs;
         this.args = argv;
@@ -26,13 +27,12 @@ class Umount {
     
     unmount(){
         
-        try{
-               
-            sudo.exec( `source ${this._uMountListFileName }`, {name:'teste'}, (err, stdout, stderr)=>{
+        try{               
+            sudo.exec( `source ${this._umountListFileName }`, {name:'teste'}, (err, stdout, stderr)=>{
                 if(err) throw err;
                 console.log(stdout);
-            })
-               
+                nodeExec(`echo " echo nothing to umount" > ${this._umountListFileName}`,{});
+            })               
         }catch(e){
             console.log(e.message);
         }

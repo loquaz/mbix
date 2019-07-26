@@ -4,12 +4,14 @@ import commandLineArgs from 'command-line-args';
 import Show from './commands/show';
 import Mount from './commands/mount';
 import Umount from './commands/umount';
+import Find from './commands/find';
 
 // enum like object with all possible subcommands
 const MBIX_SUBCOMMANDS = {
     SHOW : 'show',
     MOUNT : 'mount',
     UMOUNT : 'umount',
+    FIND : 'find',
 }
 
 const mainDefinitions = [
@@ -37,6 +39,9 @@ function _getCommandForSubCommand(_cmd, _argv){
         
         case MBIX_SUBCOMMANDS.UMOUNT :            
             return new Umount(commandLineArgs, _argv);
+        
+        case MBIX_SUBCOMMANDS.FIND :            
+            return new Find(commandLineArgs, _argv);
 
         default:
             return false;
